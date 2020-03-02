@@ -2,8 +2,8 @@ package com.example.workmanagerexample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.work.OneTimeWorkRequest
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,9 +18,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_main)
 
         workManager = WorkManager.getInstance(this)
-        periodicWorkRequest = PeriodicWorkRequest.Builder(
-            NotificationWorkManager::class.java, 15, TimeUnit.MINUTES
-        ).setInitialDelay(20, TimeUnit.SECONDS).build()
 
         start.setOnClickListener(this@MainActivity)
         stop.setOnClickListener(this@MainActivity)
@@ -29,11 +26,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.stop -> {
+                Log.d("WorkManagerrrrrr", "stop")
                 workManager.cancelAllWork()
             }
             R.id.start -> {
-                val task = OneTimeWorkRequest.Builder(NotificationWorkManager::class.java).build()
-                workManager.enqueue(task)
+                Log.d("WorkManagerrrrrr", "start")
+                periodicWorkRequest = PeriodicWorkRequest.Builder(
+                    NotificationWorkManager::class.java, 15, TimeUnit.MINUTES
+                ).setInitialDelay(20, TimeUnit.SECONDS).build()
+                workManager.enqueue(periodicWorkRequest)
             }
         }
     }

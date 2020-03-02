@@ -25,7 +25,7 @@ class NotificationWorkManager(private val context: Context, workerParams: Worker
 
     private fun showNotification() {
         val timeStamp: String = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Date())
-        Log.d("WorkManagerrrrrr", "time: $timeStamp")
+        Log.d("WorkManagerrrrrr", "show at : $timeStamp")
         val mBuilder =
             NotificationCompat.Builder(applicationContext, "default_notification_channel_id")
                 .setSmallIcon(R.mipmap.ic_launcher)
