@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.work.Data
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import com.example.workmanagerexample.NotificationWorker.Companion.NOTIFICATION_ID
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
 
@@ -31,10 +34,19 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.start -> {
                 Log.d("WorkManagerrrrrr", "start")
+                val data = Data.Builder().putInt(NOTIFICATION_ID, 0).build()
                 periodicWorkRequest = PeriodicWorkRequest.Builder(
-                    NotificationWorkManager::class.java, 15, TimeUnit.MINUTES
-                ).setInitialDelay(20, TimeUnit.SECONDS).build()
-                workManager.enqueue(periodicWorkRequest)
+                    NotificationWorker::class.java, 15, TimeUnit.MINUTES
+                ).setInitialDelay(10, TimeUnit.SECONDS).setInputData(data).build()
+                workManager.enqueueUniquePeriodicWork(
+                    "INIQUE_WORK_NAME",
+                    ExistingPeriodicWorkPolicy.REPLACE,
+                    periodicWorkRequest
+                )
+
+                /* val instanceWorkManager = WorkManager.getInstance(this)
+                 instanceWorkManager.beginUniqueWork(NOTIFICATION_WORK, REPLACE, notificationWork).enqueue()*/
+
             }
         }
     }

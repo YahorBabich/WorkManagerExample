@@ -12,11 +12,11 @@ import androidx.work.WorkerParameters
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NotificationWorkManager(private val context: Context, workerParams: WorkerParameters) :
+class NotificationWorker(private val context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
 
     private val notificationManager =
-        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     override fun doWork(): Result {
         showNotification()
@@ -24,6 +24,7 @@ class NotificationWorkManager(private val context: Context, workerParams: Worker
     }
 
     private fun showNotification() {
+        val id = inputData.getLong(NOTIFICATION_ID, 0).toInt()
         val timeStamp: String = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Date())
         Log.d("WorkManagerrrrrr", "show at : $timeStamp")
         val mBuilder =
@@ -45,5 +46,9 @@ class NotificationWorkManager(private val context: Context, workerParams: Worker
             notificationManager.createNotificationChannel(notificationChannel)
         }
         notificationManager.notify(0, mBuilder.build())
+    }
+
+    companion object {
+        const val NOTIFICATION_ID = "NOTIFICATION_ID"
     }
 }
