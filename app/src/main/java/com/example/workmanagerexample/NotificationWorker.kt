@@ -15,15 +15,15 @@ import java.util.*
 class NotificationWorker(private val context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
 
-    private val notificationManager =
-        applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
     override fun doWork(): Result {
         showNotification()
         return Result.success()
     }
 
     private fun showNotification() {
+        val notificationManager =
+            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         val id = inputData.getLong(NOTIFICATION_ID, 0).toInt()
         val timeStamp: String = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Date())
         Log.d("WorkManagerrrrrr", "show at : $timeStamp")
