@@ -14,7 +14,7 @@ import java.util.*
 
 class NotificationWorkManager(private val context: Context, workerParams: WorkerParameters) :
     Worker(context, workerParams) {
-
+    private val sdf = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault())
     private val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -24,8 +24,8 @@ class NotificationWorkManager(private val context: Context, workerParams: Worker
     }
 
     private fun showNotification() {
-        val timeStamp: String = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Date())
-        Log.d("WorkManagerrrrrr", "show at : $timeStamp")
+        val timeStamp: String = sdf.format(Date())
+        Log.d(MainActivity.TAG, "show at : $timeStamp")
         val mBuilder =
             NotificationCompat.Builder(applicationContext, "default_notification_channel_id")
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -35,7 +35,7 @@ class NotificationWorkManager(private val context: Context, workerParams: Worker
                 .setAutoCancel(true)
                 .setDefaults(0)
                 .setColor(ContextCompat.getColor(applicationContext, R.color.colorAccent))
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //Android 8.0 (API level 26)
             mBuilder.setChannelId("default_notification_channel_id")
             val notificationChannel = NotificationChannel(
                 "default_notification_channel_id",
