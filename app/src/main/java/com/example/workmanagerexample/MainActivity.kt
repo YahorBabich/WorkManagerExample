@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         const val PERIODIC_WORK_REQUEST = "PERIODIC_WORK_REQUEST"
     }
 
-    //private var id: UUID? = null
     private lateinit var workManager: WorkManager
     private lateinit var periodicWorkRequest: PeriodicWorkRequest
     private lateinit var preference: SharedPreferences
